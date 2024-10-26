@@ -5,7 +5,7 @@
 export DISPLAY=:0 # this for cronjobs to recognize which display you are using.
 monitor=$(/usr/bin/xrandr | grep -w "connected" | cut -d" " -f1) # setting the current monitor.
 brightness="$1"
-gamma="$2"
+gamma=${2:-1} # set default value to one 
 
 #Functions && Commands 
 #----------------------
@@ -17,4 +17,4 @@ notify() {
 
 [ "$gamma" = night ] && gamma="1.0:0.95:0.85" 
 
-xrandr --output "$monitor" --brightness "$brightness" --gamma "$gamma" && notify
+xrandr --output "$monitor" --brightness "$brightness" --gamma $gamma && notify
