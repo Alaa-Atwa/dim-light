@@ -1,0 +1,20 @@
+#!/usr/bin/env bash 
+
+#Variables
+#---------
+export DISPLAY=:0 # this for cronjobs to recognize which display you are using.
+monitor=$(/usr/bin/xrandr | grep -w "connected" | cut -d" " -f1) # setting the current monitor.
+brightness="$1"
+gamma="$2"
+
+#Functions && Commands 
+#----------------------
+# send a notifcation when setting the brightness 
+
+notify() {
+  $(which notify-send) -t 3000 "Brightness Changed to $brightness"
+}
+
+[ "$gamma" = night ] && gamma="1.0:0.95:0.85" || gamma="1.0:1.0:1.0"
+
+xrandr --output "$monitor" --brightness "$brightness" --gamma "$gamma" && notify
